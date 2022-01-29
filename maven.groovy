@@ -5,26 +5,31 @@
 */
 def call(){
   stage("Paso 1: Compliar"){
+    env.FAIL_STAGE_NAME = STAGE_NAME
     sh "mvn clean compile -e"
   }
   stage("Paso 2: Testear"){
-
+    env.FAIL_STAGE_NAME = STAGE_NAME
     sh "mvn clean test -e"
   }
   stage("Paso 3: Build .Jar"){
+    env.FAIL_STAGE_NAME = STAGE_NAME
     sh "mvn clean package -e"
   }
   stage("Paso 4: Sonar - Análisis Estático"){
+      env.FAIL_STAGE_NAME = STAGE_NAME
       sh "echo 'Análisis Estático!'"
       withSonarQubeEnv('sonarqube') {
           sh 'mvn clean verify sonar:sonar -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
       }
   }
   stage("Paso 5: Curl Springboot Maven sleep 100"){
+      env.FAIL_STAGE_NAME = STAGE_NAME
       sh "gradle bootRun&"
       sh "sleep 100 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
   }
   stage("Paso 6: Subir Nexus"){
+      env.FAIL_STAGE_NAME = STAGE_NAME
       nexusPublisher nexusInstanceId: 'nexus',
       nexusRepositoryId: 'devops-usach-nexus',
       packages: [
@@ -45,12 +50,15 @@ def call(){
       ]
   }
   stage("Paso 7: Descargar Nexus"){
+      env.FAIL_STAGE_NAME = STAGE_NAME
       sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
   }
   stage("Paso 8: Levantar Artefacto Jar"){
+      env.FAIL_STAGE_NAME = STAGE_NAME
       sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
   }
   stage("Paso 9: Testear Artefacto - Dormir(Esperar 100sg) "){
+      env.FAIL_STAGE_NAME = STAGE_NAME
       sh "sleep 100 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
   }
 }

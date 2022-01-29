@@ -21,6 +21,7 @@ def call(){
         sh "sleep 100 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
     stage("Paso 4: Subir Nexus"){
+        env.FAIL_STAGE_NAME = STAGE_NAME
         nexusPublisher nexusInstanceId: 'nexus',
         nexusRepositoryId: 'devops-usach-nexus',
         packages: [
@@ -41,12 +42,15 @@ def call(){
         ]
     }
     stage("Paso 5: Descargar Nexus"){
+        env.FAIL_STAGE_NAME = STAGE_NAME
         sh ' curl -X GET -u $NEXUS_USER:$NEXUS_PASSWORD "http://nexus:8081/repository/devops-usach-nexus/com/devopsusach2020/DevOpsUsach2020/0.0.1/DevOpsUsach2020-0.0.1.jar" -O'
     }
     stage("Paso 6: Levantar Artefacto Jar"){
+        env.FAIL_STAGE_NAME = STAGE_NAME
         sh 'nohup bash java -jar DevOpsUsach2020-0.0.1.jar & >/dev/null'
     }
     stage("Paso 7: Testear Artefacto - Dormir(Esperar 100sg) "){
+        env.FAIL_STAGE_NAME = STAGE_NAME
         sh "sleep 100 && curl -X GET 'http://localhost:8081/rest/mscovid/test?msg=testing'"
     }
 }
