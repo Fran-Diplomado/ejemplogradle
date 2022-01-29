@@ -5,10 +5,11 @@
 */
 def call(){
     stage("Paso 1: Build && Test"){
-        sh "gradle clean build"
         env.FAIL_STAGE_NAME = STAGE_NAME
+        sh "gradle clean build"
     }
     stage("Paso 2: Sonar - Análisis Estático"){
+        env.FAIL_STAGE_NAME = STAGE_NAME
         shd "echo 'Análisis Estático!'"
         withSonarQubeEnv('sonarqube') {
             sh './gradlew sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
