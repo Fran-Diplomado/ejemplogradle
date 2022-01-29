@@ -6,11 +6,13 @@
 def call(){
     stage("Paso 1: Build && Test"){
         sh "gradle clean build"
+        env.FAIL_STAGE_NAME = STAGE_NAME
     }
     stage("Paso 2: Sonar - Análisis Estático"){
         shd "echo 'Análisis Estático!'"
         withSonarQubeEnv('sonarqube') {
             sh './gradlew sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
+            env.FAIL_STAGE_NAME = STAGE_NAME
         }
     }
     stage("Paso 3: Curl Springboot Gradle sleep 100"){
