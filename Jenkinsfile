@@ -32,12 +32,12 @@ pipeline {
     }
     post{
         always {
-            success{
-					slackSend color: 'good', message: "[Jesus Donoso] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'jesus-testespacio', tokenCredentialId: 'token-slack'
-			}
-			failure{
-					slackSend color: 'danger', message: "[Jesus Donoso] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'slack-token'
+                if ( buildResult == "SUCCESS" ) {
+                    slackSend (color: 'good', message: "[Jesus Donoso] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa")
+                }
+                if( buildResult == "FAILURE" ) {
+                    slackSend (color: 'danger', message: "[Jesus Donoso] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]")
+                }
 			}
 		}
     }
-}
