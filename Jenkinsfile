@@ -32,11 +32,13 @@ pipeline {
     }
     post{
         always {
-                if ( buildResult == "SUCCESS" ) {
+                step {
+                    if ( buildResult == "SUCCESS" ) {
                     slackSend (color: 'good', message: "[Jesus Donoso] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa")
-                }
-                if( buildResult == "FAILURE" ) {
-                    slackSend (color: 'danger', message: "[Jesus Donoso] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]")
+                    }
+                    if( buildResult == "FAILURE" ) {
+                        slackSend (color: 'danger', message: "[Jesus Donoso] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]")
+                    }
                 }
 			}
 		}
