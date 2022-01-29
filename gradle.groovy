@@ -8,7 +8,7 @@ def call(){
         sh "gradle clean build"
     }
     stage("Paso 2: Sonar - Análisis Estático"){
-        sh "echo 'Análisis Estático!'"
+        shd "echo 'Análisis Estático!'"
         withSonarQubeEnv('sonarqube') {
             sh './gradlew sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
         }
