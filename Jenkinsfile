@@ -33,7 +33,7 @@ pipeline {
 					slackSend color: 'good', message: "[JESUS DONOSO] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
 				}
 				failure{
-					slackSend color: 'danger', message: "[JESUS DONOSO] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
+					slackSend color: 'danger', message: "[JESUS DONOSO] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.FAIL_STAGE_NAME}]", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
 				}
 			}
         }
