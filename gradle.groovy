@@ -12,8 +12,8 @@ def call(){
         shd "echo 'Análisis Estático!'"
         withSonarQubeEnv('sonarqube') {
             sh './gradlew sonarqube -Dsonar.projectKey=ejemplo-gradle -Dsonar.java.binaries=build'
-            env.FAIL_STAGE_NAME = STAGE_NAME
         }
+        env.FAIL_STAGE_NAME = STAGE_NAME
     }
     stage("Paso 3: Curl Springboot Gradle sleep 100"){
         sh "gradle bootRun&"

@@ -30,10 +30,10 @@ pipeline {
             }
             post{
 				success{
-					slackSend color: 'good', message: "[JESUS DONOSO] [${env.JOB_NAME}] [${env.BUIL_NUMBER}] Ejecucion Exitosa", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
+					slackSend color: 'good', message: "[JESUS DONOSO] [${env.JOB_NAME}] [${env.BUILD_NUMBER}] Ejecucion Exitosa", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
 				}
 				failure{
-					slackSend color: 'danger', message: "[JESUS DONOSO] [${env.JOB_NAME}] [${env.BUIL_NUMBER}] Ejecucion fallida en stage [${env.FAIL_STAGE_NAME}]", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
+					slackSend color: 'danger', message: "[JESUS DONOSO] [${env.JOB_NAME}] [${env.BUILD_NUMBER}] Ejecucion fallida en stage [${env.FAIL_STAGE_NAME}]", teamDomain: 'jesus-testespacio', tokenCredentialId: 't-slack'
 				}
 			}
         }
