@@ -28,18 +28,14 @@ pipeline {
                     }
                 }
             }
+            post{
+				success{
+					slackSend color: 'good', message: "[JESUS DONOSO] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa", teamDomain: 'dipdevopsusac-tr94431', tokenCredentialId: 'token-slack'
+				}
+				failure{
+					slackSend color: 'danger', message: "[JESUS DONOSO] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]", teamDomain: 'jesus-testespacio', tokenCredentialId: 'token-slack'
+				}
+			}
         }
     }
-    post{
-        always {
-                step {
-                    if ( buildResult == "SUCCESS" ) {
-                    slackSend (color: 'good', message: "[Jesus Donoso] [${JOB_NAME}] [${BUILD_TAG}] Ejecucion Exitosa")
-                    }
-                    if( buildResult == "FAILURE" ) {
-                        slackSend (color: 'danger', message: "[Jesus Donoso] [${env.JOB_NAME}] [${BUILD_TAG}] Ejecucion fallida en stage [${env.TAREA}]")
-                    }
-                }
-			}
-		}
-    }
+}
